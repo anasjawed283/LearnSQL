@@ -1,0 +1,112 @@
+SQL*Plus: Release 11.2.0.2.0 Production on Thu Apr 27 10:41:11 2023
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect system
+Enter password:
+Connected.
+SQL> create table Department21BRS1336(
+  2  depID int,
+  3  dname varchar(255),
+  4  location varchar(255)
+  5  );
+
+Table created.
+
+SQL> create table Student21BRS1336(
+  2  regnum int,
+  3  name varchar(255),
+  4  depID int,
+  5  semester varchar(255),
+  6  age int
+  7  );
+
+Table created.
+
+SQL> create table faculty21BRS1336(
+  2  fID int,
+  3  fname varchar(255),
+  4  depID int
+  5  );
+
+Table created.
+
+SQL> create table class21BRS1336(
+  2  cname varchar(255),
+  3  slot varchar(255),
+  4  room int,
+  5  fID int
+  6  );
+
+Table created.
+
+SQL> create table Enrolled21BRS1336(
+  2  regno varchar(255),
+  3  cname varchar(255)
+  4  );
+
+Table created.
+
+SQL> desc Enrolled21BRS1336
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REGNO                                              VARCHAR2(255)
+ CNAME                                              VARCHAR2(255)
+
+SQL> alter table Student21BRS1336
+  2  add gender varchar(255),
+  3  add mobile int;
+add gender varchar(255),
+                       *
+ERROR at line 2:
+ORA-01735: invalid ALTER TABLE option
+
+
+SQL> alter table Student21BRS1336
+  2  add gender varchar(255);
+
+Table altered.
+
+SQL> alter table Student21BRS1336
+  2  add mobile int;
+
+Table altered.
+
+SQL> desc Student21BRS1336
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REGNUM                                             NUMBER(38)
+ NAME                                               VARCHAR2(255)
+ DEPID                                              NUMBER(38)
+ SEMESTER                                           VARCHAR2(255)
+ AGE                                                NUMBER(38)
+ GENDER                                             VARCHAR2(255)
+ MOBILE                                             NUMBER(38)
+
+SQL> alter table Student21BRS1336
+  2  rename column name to Sname;
+
+Table altered.
+
+SQL> desc Student21BRS1336
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REGNUM                                             NUMBER(38)
+ SNAME                                              VARCHAR2(255)
+ DEPID                                              NUMBER(38)
+ SEMESTER                                           VARCHAR2(255)
+ AGE                                                NUMBER(38)
+ GENDER                                             VARCHAR2(255)
+ MOBILE                                             NUMBER(38)
+
+SQL> alter table faculty21BRS1336
+  2  rename column fID to Facultyid;
+
+Table altered.
+
+SQL> drop table Enrolled21BRS1336
+  2  ;
+
+Table dropped.
+
+SQL>
