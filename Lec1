@@ -53,14 +53,6 @@ SQL> desc Enrolled21BRS1336
  REGNO                                              VARCHAR2(255)
  CNAME                                              VARCHAR2(255)
 
-SQL> alter table Student21BRS1336
-  2  add gender varchar(255),
-  3  add mobile int;
-add gender varchar(255),
-                       *
-ERROR at line 2:
-ORA-01735: invalid ALTER TABLE option
-
 
 SQL> alter table Student21BRS1336
   2  add gender varchar(255);
