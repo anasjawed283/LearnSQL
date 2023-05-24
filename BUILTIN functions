@@ -1,0 +1,166 @@
+SQL> create table employee_21BRS1336(EMPID int, EMPNAME varchar(20), JOB varchar(20), DOB date, SALARY int, DEPTNO int, GENDER varchar(20));
+
+Table created.
+
+SQL> INSERT into employee_21BRS1336(1001, 'Anas', 'CEO', '27-sep-98', 95000,1, 'Male');
+INSERT into employee_21BRS1336(1001, 'Anas', 'CEO', '27-sep-98', 95000,1, 'Male')
+                               *
+ERROR at line 1:
+ORA-00928: missing SELECT keyword
+
+
+SQL> INSERT into employee_21BRS1336 values(1001, 'Anas', 'CEO', '27-sep-98', 95000,1, 'Male');
+
+1 row created.
+
+SQL> INSERT into employee_21BRS1336 values(1002, 'Pandey', 'Lead', 20-jul-98', 85000,2, 'Male');
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> INSERT into employee_21BRS1336 values(1002, 'Pandey', 'Lead', '20-jul-98', 85000,2, 'Male');
+
+1 row created.
+
+SQL> INSERT into employee_21BRS1336 values(1003, 'Dubey', 'Developer', '10-may-98', 90000,3, 'Male');
+
+1 row created.
+
+SQL> INSERT into employee_21BRS1336 values(1004, 'Emily', 'Manager', '10-oct-98', 80000,4, 'Female');
+
+1 row created.
+
+SQL> INSERT into employee_21BRS1336 values(1004, 'Annabelle', 'Client', '30-oct-98', 55000,5, 'Female');
+
+1 row created.
+
+SQL> select MONTHNAME('14-jul-2015') from Employee_21BRS1336;
+select MONTHNAME('14-jul-2015') from Employee_21BRS1336
+       *
+ERROR at line 1:
+ORA-00904: "MONTHNAME": invalid identifier
+
+
+SQL> select DOB from Employee_21BRS1336;
+
+DOB
+---------
+27-SEP-98
+20-JUL-98
+10-MAY-98
+10-OCT-98
+30-OCT-98
+
+SQL> select add_months(DOB, 2) from Employee_21BRS1336;
+
+ADD_MONTH
+---------
+27-NOV-98
+20-SEP-98
+10-JUL-98
+10-DEC-98
+30-DEC-98
+
+SQL> select last_day('05-oct-2015') from Employee_21BRS1336;
+
+LAST_DAY(
+---------
+31-OCT-15
+31-OCT-15
+31-OCT-15
+31-OCT-15
+31-OCT-15
+
+SQL> select round(to_date (dob), 'year') from Employee_21BRS1336;
+
+ROUND(TO_
+---------
+01-JAN-99
+01-JAN-99
+01-JAN-98
+01-JAN-99
+01-JAN-99
+
+SQL> select round(to_date (current_date), 'year') from Employee_21BRS1336;
+
+ROUND(TO_
+---------
+01-JAN-23
+01-JAN-23
+01-JAN-23
+01-JAN-23
+01-JAN-23
+
+SQL> select round(to_date (DOB), 'month') from Employee_21BRS1336;
+
+ROUND(TO_
+---------
+01-OCT-98
+01-AUG-98
+01-MAY-98
+01-OCT-98
+01-NOV-98
+
+SQL> select round(to_date (current_date), 'month') from Employee_21BRS1336;
+
+ROUND(TO_
+---------
+01-JUN-23
+01-JUN-23
+01-JUN-23
+01-JUN-23
+01-JUN-23
+
+SQL> select round(to_date (DOB), 'day') from Employee_21BRS1336;
+
+ROUND(TO_
+---------
+27-SEP-98
+19-JUL-98
+10-MAY-98
+11-OCT-98
+01-NOV-98
+
+SQL> select round(to_date (current_date), 'day') from Employee_21BRS1336;
+
+ROUND(TO_
+---------
+21-MAY-23
+21-MAY-23
+21-MAY-23
+21-MAY-23
+21-MAY-23
+
+SQL> select date_sub(current_date, interval 60 day) from employee_21BRS1336;
+select date_sub(current_date, interval 60 day) from employee_21BRS1336
+                                       *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> select date_sub(current_date, interval 60 days) from employee_21BRS1336;
+select date_sub(current_date, interval 60 days) from employee_21BRS1336
+                                       *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> select * from Employee_21BRS1336 where DOB like '%AUG%';
+
+no rows selected
+
+SQL> select * from Employee_21BRS1336 where DOB like '%MAY%';
+
+     EMPID EMPNAME              JOB                  DOB           SALARY
+---------- -------------------- -------------------- --------- ----------
+    DEPTNO GENDER
+---------- --------------------
+      1003 Dubey                Developer            10-MAY-98      90000
+         3 Male
+
+
+SQL> select * from Employee_21BRS1336 where DOB like '%MAY%' and gender='Female';
+
+no rows selected
+
+SQL>
