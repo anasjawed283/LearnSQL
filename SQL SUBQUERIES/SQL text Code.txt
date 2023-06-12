@@ -1,0 +1,443 @@
+Connected.
+SQL> create table departmentBRS1336(
+  2  dept_no INT PRIMARY KEY,
+  3  dept_name VARCHAR(50),
+  4  location VARCHAR(50)
+  5  );
+
+Table created.
+
+
+
+SQL> create table employeeBRS1336(
+  2  emp_no INT PRIMARY KEY,
+  3  emp_name VARCHAR(50),
+  4   DOB DATE,
+  5  address VARCHAR(100),
+  6  doj DATE,
+  7  mobile_no VARCHAR(15),
+  8  dept_no INT,
+  9  salary DECIMAL(10, 2),
+ 10   FOREIGN KEY (dept_no) REFERENCES departmentBRS1336(dept_no)
+ 11  );
+
+Table created.
+
+
+SQL> INSERT INTO departmentBRS1336 (dept_no, dept_name, location)
+  2  VALUES
+  3  (1, 'Sales', 'New York');
+
+1 row created.
+
+SQL> INSERT INTO departmentBRS1336 (dept_no, dept_name, location)
+  2  VALUES
+  3  (2, 'Marketing', 'Los Angeles');
+
+1 row created.
+
+SQL> INSERT INTO departmentBRS1336 (dept_no, dept_name, location)
+  2  VALUES
+  3  (3, 'Finance', 'Chicago');
+
+1 row created.
+
+SQL> INSERT INTO departmentBRS1336 (dept_no, dept_name, location)
+  2  VALUES
+  3  (4, 'HR', 'Houston');
+
+1 row created.
+
+SQL> INSERT INTO departmentBRS1336 (dept_no, dept_name, location)
+  2  VALUES
+  3  (5, 'IT', 'San Francisco');
+
+1 row created.
+
+SQL> INSERT INTO departmentBRS1336 (dept_no, dept_name, location)
+  2  VALUES
+  3  (1234, 'CSE', 'New York');
+
+1 row created.
+
+
+
+
+SQL> INSERT INTO employeeBRS1336 (emp_no, emp_name, DOB, address, doj, mobile_no, dept_no, salary)
+  2  VALUES
+  3  (1, 'Anas Jawed', '15-APR-1990', '123 Main St, New York', '01-JAN-2015', '1234567890', 1, 50000.00);
+
+1 row created.
+
+SQL> INSERT INTO employeeBRS1336 (emp_no, emp_name, DOB, address, doj, mobile_no, dept_no, salary)
+  2  VALUES
+  3  (2, 'Yash Sri', '20-OCT-1950', '456 Elm St, Los Angeles', '15-FEB-2016', '9876543210', 2, 55000.00);
+
+1 row created.
+
+SQL> INSERT INTO employeeBRS1336 (emp_no, emp_name, DOB, address, doj, mobile_no, dept_no, salary)
+  2  VALUES
+  3    (3, 'Bamrik', '10-AUG-1992', '789 Oak St, Chicago', '10-MAR-2017', '5555555555', 3, 60000.00);
+
+1 row created.
+
+SQL> INSERT INTO employeeBRS1336 (emp_no, emp_name, DOB, address, doj, mobile_no, dept_no, salary)
+  2  VALUES
+  3   (4, 'Reena', '5-APR-1998', '321 Pine St, Houston', '25-APR-2018', '9999999999', 4, 65000.00);
+
+1 row created.
+
+SQL> INSERT INTO employeeBRS1336 (emp_no, emp_name, DOB, address, doj, mobile_no, dept_no, salary)
+  2  VALUES
+  3   (5, 'John', '01-DEC-1994', '654 Cedar St, San Francisco', '12-MAY-2019', '1111111111', 5, 70000.00);
+
+1 row created.
+
+SQL> INSERT INTO employeeBRS1336 (emp_no, emp_name, DOB, address, doj, mobile_no, dept_no, salary)
+  2  VALUES
+  3   (1234, 'Khachra Seth', '01-JAN-1990', '654 Powder St, Maharastra', '12-MAY-2016', '1111111111', 1234, 75000.00);
+
+1 row created.
+
+
+
+SQL> SELECT emp_name
+  2  FROM employeeBRS1336
+  3  WHERE dept_no = (SELECT dept_no FROM departmentBRS1336 WHERE dept_name = 'CSE');
+
+EMP_NAME
+--------------------------------------------------
+Khachra Seth
+
+SQL> SELECT emp_name
+  2  FROM employeeBRS1336
+  3  WHERE salary > (SELECT salary FROM employeeBRS1336 WHERE emp_no = 1234);
+
+no rows selected
+
+SQL> SELECT emp_name, salary
+  2  FROM employeeBRS1336
+  3  WHERE salary >= (SELECT AVG(salary) FROM employeeBRS1336 WHERE dept_no = 5);
+
+EMP_NAME                                               SALARY
+-------------------------------------------------- ----------
+John                                                    70000
+Khachra Seth                                            75000
+
+
+
+
+
+SQL> SELECT emp_name
+  2  FROM employeeBRS1336
+  3  WHERE salary = (SELECT MAX(salary) FROM employeeBRS1336);
+
+EMP_NAME
+--------------------------------------------------
+Khachra Seth
+
+SQL> SELECT emp_name, salary
+  2  FROM employeeBRS1336
+  3  WHERE salary BETWEEN 20000 AND 40000;
+
+no rows selected
+
+SQL> UPDATE employeeBRS1336
+  2  SET salary = salary * 0.25
+  3  WHERE dept_no = (SELECT dept_no FROM departmentBRS1336 WHERE dept_name = 'HR');
+
+1 row updated.
+
+
+
+
+
+
+SQL> SELECT *
+  2  FROM employeeBRS1336
+  3  ;
+
+    EMP_NO EMP_NAME                                           DOB
+---------- -------------------------------------------------- ---------
+ADDRESS
+--------------------------------------------------------------------------------
+DOJ       MOBILE_NO          DEPT_NO     SALARY
+--------- --------------- ---------- ----------
+         1 Anas Jawed                                         15-APR-90
+123 Main St, New York
+01-JAN-15 1234567890               1      50000
+
+         2 Yash Sri                                           20-OCT-50
+456 Elm St, Los Angeles
+15-FEB-16 9876543210               2      55000
+
+    EMP_NO EMP_NAME                                           DOB
+---------- -------------------------------------------------- ---------
+ADDRESS
+--------------------------------------------------------------------------------
+DOJ       MOBILE_NO          DEPT_NO     SALARY
+--------- --------------- ---------- ----------
+
+         3 Bamrik                                             10-AUG-92
+789 Oak St, Chicago
+10-MAR-17 5555555555               3      60000
+
+         4 Reena                                              05-APR-98
+321 Pine St, Houston
+
+    EMP_NO EMP_NAME                                           DOB
+---------- -------------------------------------------------- ---------
+ADDRESS
+--------------------------------------------------------------------------------
+DOJ       MOBILE_NO          DEPT_NO     SALARY
+--------- --------------- ---------- ----------
+25-APR-18 9999999999               4      16250
+
+         5 John                                               01-DEC-94
+654 Cedar St, San Francisco
+12-MAY-19 1111111111               5      70000
+
+      1234 Khachra Seth                                       01-JAN-90
+
+    EMP_NO EMP_NAME                                           DOB
+---------- -------------------------------------------------- ---------
+ADDRESS
+--------------------------------------------------------------------------------
+DOJ       MOBILE_NO          DEPT_NO     SALARY
+--------- --------------- ---------- ----------
+654 Powder St, Maharastra
+12-MAY-16 1111111111            1234      75000
+
+
+6 rows selected.
+
+
+
+
+
+
+SQL> DELETE FROM employeeBRS1336
+  2  WHERE dept_no = (SELECT dept_no FROM departmentBRS1336 WHERE dept_name = 'Admin');
+
+0 rows deleted.
+
+SQL> SELECT d.dept_name
+  2  FROM departmentBRS1336 d
+  3  JOIN employeeBRS1336 e ON d.dept_no = e.dept_no
+  4  GROUP BY d.dept_name
+  5  HAVING MIN(e.salary) = (SELECT MIN(salary) FROM employeeBRS1336);
+
+DEPT_NAME
+--------------------------------------------------
+HR
+
+SQL> SELECT e.emp_name, e.salary
+  2  FROM employeeBRS1336 e
+  3  JOIN employeeBRS1336 j ON e.dept_no = j.dept_no
+  4  WHERE e.salary > (SELECT salary FROM employeeBRS1336 WHERE emp_name = 'Reena')
+  5   AND j.emp_name = 'John';
+
+EMP_NAME                                               SALARY
+-------------------------------------------------- ----------
+John                                                    70000
+
+SQL> SELECT emp_name
+  2  FROM employeeBRS1336
+  3  WHERE salary < (SELECT AVG(salary) FROM employeeBRS1336 WHERE dept_no = (SELECT dept_no FROM departmentBRS1336 WHERE dept_name = 'CSE'));
+
+EMP_NAME
+--------------------------------------------------
+Anas Jawed
+Yash Sri
+Bamrik
+Reena
+John
+
+SQL> SELECT COUNT(*)
+  2  FROM employeeBRS1336
+  3  WHERE dept_no = (SELECT dept_no FROM employeeBRS1336 WHERE emp_name = 'John');
+
+  COUNT(*)
+----------
+         1
+
+
+
+
+
+
+
+
+SQL> SELECT d.dept_no, d.dept_name, e.emp_no, e.emp_name
+  2  FROM departmentBRS1336 d
+  3  CROSS JOIN employeeBRS1336 e;
+
+   DEPT_NO DEPT_NAME                                              EMP_NO
+---------- -------------------------------------------------- ----------
+EMP_NAME
+--------------------------------------------------
+         1 Sales                                                       1
+Anas Jawed
+
+         1 Sales                                                       2
+Yash Sri
+
+         1 Sales                                                       3
+Bamrik
+
+
+   DEPT_NO DEPT_NAME                                              EMP_NO
+---------- -------------------------------------------------- ----------
+EMP_NAME
+--------------------------------------------------
+         1 Sales                                                       4
+Reena
+
+         1 Sales                                                       5
+John
+
+         1 Sales                                                    1234
+Khachra Seth
+
+
+   DEPT_NO DEPT_NAME                                              EMP_NO
+---------- -------------------------------------------------- ----------
+EMP_NAME
+--------------------------------------------------
+         2 Marketing                                                   1
+Anas Jawed
+
+         2 Marketing                                                   2
+Yash Sri
+
+         2 Marketing                                                   3
+Bamrik
+
+
+   DEPT_NO DEPT_NAME                                              EMP_NO
+---------- -------------------------------------------------- ----------
+EMP_NAME
+--------------------------------------------------
+         2 Marketing                                                   4
+Reena
+
+         2 Marketing                                                   5
+John
+
+         2 Marketing                                                1234
+Khachra Seth
+
+
+  DEPT_NO DEPT_NAME                                              EMP_NO
+---------- -------------------------------------------------- ----------
+EMP_NAME
+--------------------------------------------------
+         3 Finance                                                     1
+Anas Jawed
+
+         3 Finance                                                     2
+Yash Sri
+
+         3 Finance                                                     3
+Bamrik
+
+
+   DEPT_NO DEPT_NAME                                              EMP_NO
+---------- -------------------------------------------------- ----------
+EMP_NAME
+--------------------------------------------------
+         3 Finance                                                     4
+Reena
+
+         3 Finance                                                     5
+John
+
+         3 Finance                                                  1234
+Khachra Seth
+
+
+   DEPT_NO DEPT_NAME                                              EMP_NO
+---------- -------------------------------------------------- ----------
+EMP_NAME
+--------------------------------------------------
+         4 HR                                                          1
+Anas Jawed
+
+         4 HR                                                          2
+Yash Sri
+
+         4 HR                                                          3
+Bamrik
+
+
+   DEPT_NO DEPT_NAME                                              EMP_NO
+---------- -------------------------------------------------- ----------
+EMP_NAME
+--------------------------------------------------
+         4 HR                                                          4
+Reena
+
+         4 HR                                                          5
+John
+
+         4 HR                                                       1234
+Khachra Seth
+
+ DEPT_NO DEPT_NAME                                              EMP_NO
+---------- -------------------------------------------------- ----------
+EMP_NAME
+--------------------------------------------------
+         5 IT                                                          1
+Anas Jawed
+
+         5 IT                                                          2
+Yash Sri
+
+         5 IT                                                          3
+Bamrik
+
+
+   DEPT_NO DEPT_NAME                                              EMP_NO
+---------- -------------------------------------------------- ----------
+EMP_NAME
+--------------------------------------------------
+         5 IT                                                          4
+Reena
+
+         5 IT                                                          5
+John
+
+         5 IT                                                       1234
+Khachra Seth
+
+
+   DEPT_NO DEPT_NAME                                              EMP_NO
+---------- -------------------------------------------------- ----------
+EMP_NAME
+--------------------------------------------------
+      1234 CSE                                                         1
+Anas Jawed
+
+      1234 CSE                                                         2
+Yash Sri
+
+      1234 CSE                                                         3
+Bamrik
+
+
+   DEPT_NO DEPT_NAME                                              EMP_NO
+---------- -------------------------------------------------- ----------
+EMP_NAME
+--------------------------------------------------
+      1234 CSE                                                         4
+Reena
+
+      1234 CSE                                                         5
+John
+
+      1234 CSE                                                      1234
+Khachra Seth
+
+36 rows selected.
+
+SQL>
