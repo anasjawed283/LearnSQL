@@ -1,0 +1,665 @@
+SQL> connect system
+Enter password:
+Connected.
+SQL> -- Create the salesman21brs1336 table
+SQL> CREATE TABLE salesman21brs1336 (
+  2    SALESMAN_ID INT,
+  3    NAME VARCHAR(50),
+  4    CITY VARCHAR(50),
+  5    COMMISSION DECIMAL(10, 2),
+  6    PRIMARY KEY (SALESMAN_ID)
+  7  );
+
+Table created.
+
+SQL> -- Create the customer21brs1336 table
+SQL> CREATE TABLE customer21brs1336 (
+  2    CUSTOMER_ID INT,
+  3    CUST_NAME VARCHAR(50),
+  4    CITY VARCHAR(50),
+  5    GRADE VARCHAR(10),
+  6    SALESMAN_ID INT,
+  7    PRIMARY KEY (CUSTOMER_ID),
+  8    FOREIGN KEY (SALESMAN_ID) REFERENCES salesman21brs1336 (SALESMAN_ID)
+  9  );
+
+Table created.
+
+SQL> -- Create the orders21brs1336 table
+SQL> CREATE TABLE orders21brs1336 (
+  2    ORDER_NO INT,
+  3    ORDER_AMT DECIMAL(10, 2),
+  4    ORDER_DATE DATE,
+  5    CUST_ID INT,
+  6    SALESMAN_ID INT,
+  7    PRIMARY KEY (ORDER_NO),
+  8    FOREIGN KEY (CUST_ID) REFERENCES customer21brs1336 (CUSTOMER_ID),
+  9    FOREIGN KEY (SALESMAN_ID) REFERENCES salesman21brs1336 (SALESMAN_ID)
+ 10  );
+
+Table created.
+
+SQL>
+SQL>
+SQL>
+SQL> INSERT INTO salesman21brs1336 (SALESMAN_ID, NAME, CITY, COMMISSION)
+  2  VALUES
+  3  (1, 'Jabba', 'Gaya', 0.1);
+
+1 row created.
+
+SQL> INSERT INTO salesman21brs1336 (SALESMAN_ID, NAME, CITY, COMMISSION)
+  2  VALUES
+  3   (2, 'BabuBhai', 'Maharashtra', 0.15);
+
+1 row created.
+
+SQL> INSERT INTO salesman21brs1336 (SALESMAN_ID, NAME, CITY, COMMISSION)
+  2  VALUES
+  3   (3, 'Dijas', 'Bengal', 0.12);
+
+1 row created.
+
+SQL> INSERT INTO salesman21brs1336 (SALESMAN_ID, NAME, CITY, COMMISSION)
+  2  VALUES
+  3    (4, 'Aara', 'Ranchi', 0.08);
+
+1 row created.
+
+SQL> INSERT INTO salesman21brs1336 (SALESMAN_ID, NAME, CITY, COMMISSION)
+  2  VALUES
+  3   (5, 'Munna Bhai', 'Haveli', 0.09);
+
+1 row created.
+
+SQL>
+SQL>
+SQL>
+SQL> -- Insert data into customer21brs1336 table
+SQL> INSERT INTO customer21brs1336 (CUSTOMER_ID, CUST_NAME, CITY, GRADE, SALESMAN_ID)
+  2  VALUES
+  3  (1, 'Syska', 'Gaya', 'A', 1);
+
+1 row created.
+
+SQL> INSERT INTO customer21brs1336 (CUSTOMER_ID, CUST_NAME, CITY, GRADE, SALESMAN_ID)
+  2  VALUES
+  3  (2, 'bishop Corporation', 'Maharashtra', 'B', 2);
+
+1 row created.
+
+SQL> INSERT INTO customer21brs1336 (CUSTOMER_ID, CUST_NAME, CITY, GRADE, SALESMAN_ID)
+  2  VALUES
+  3    (3, 'Tesla Industries', 'Bengal', 'A', 1);
+
+1 row created.
+
+SQL> INSERT INTO customer21brs1336 (CUSTOMER_ID, CUST_NAME, CITY, GRADE, SALESMAN_ID)
+  2  VALUES
+  3  (4, 'Loyla Enterprises', 'Ranchi', 'C', 4);
+
+1 row created.
+
+SQL> INSERT INTO customer21brs1336 (CUSTOMER_ID, CUST_NAME, CITY, GRADE, SALESMAN_ID)
+  2  VALUES
+  3   (5, 'Agarwal Ltd.', 'Haveli', 'B', 3);
+
+1 row created.
+
+SQL>
+SQL>
+SQL>
+SQL> -- Insert data into orders21brs1336 table
+SQL> INSERT INTO orders21brs1336 (ORDER_NO, ORDER_AMT, ORDER_DATE, CUST_ID, SALESMAN_ID)
+  2  VALUES
+  3  (1, 1000.00, '01-JUN-2023', 1, 1);
+
+1 row created.
+
+SQL> INSERT INTO orders21brs1336 (ORDER_NO, ORDER_AMT, ORDER_DATE, CUST_ID, SALESMAN_ID)
+  2  VALUES
+  3  (2, 500.50, '02-JUN-2023', 2, 2);
+
+1 row created.
+
+SQL> INSERT INTO orders21brs1336 (ORDER_NO, ORDER_AMT, ORDER_DATE, CUST_ID, SALESMAN_ID)
+  2  VALUES
+  3  (3, 750.25, '03-JUN-2023', 3, 1);
+
+1 row created.
+
+SQL> INSERT INTO orders21brs1336 (ORDER_NO, ORDER_AMT, ORDER_DATE, CUST_ID, SALESMAN_ID)
+  2  VALUES
+  3  (4, 1200.75, '04-JUN-2023', 4, 4);
+
+1 row created.
+
+SQL> INSERT INTO orders21brs1336 (ORDER_NO, ORDER_AMT, ORDER_DATE, CUST_ID, SALESMAN_ID)
+  2  VALUES
+  3   (5, 900.80, '05-JUN-2023', 5, 3);
+
+1 row created.
+
+SQL>
+SQL>
+SQL>
+SQL> SELECT s.NAME AS SalesmanName, c.CUST_NAME AS CustomerName, s.CITY AS City
+  2  FROM salesman21brs1336 s
+  3  JOIN customer21brs1336 c ON s.CITY = c.CITY;
+
+SALESMANNAME
+--------------------------------------------------
+CUSTOMERNAME
+--------------------------------------------------
+CITY
+--------------------------------------------------
+Jabba
+Syska
+Gaya
+
+BabuBhai
+bishop Corporation
+Maharashtra
+
+SALESMANNAME
+--------------------------------------------------
+CUSTOMERNAME
+--------------------------------------------------
+CITY
+--------------------------------------------------
+
+Dijas
+Tesla Industries
+Bengal
+
+Aara
+Loyla Enterprises
+
+SALESMANNAME
+--------------------------------------------------
+CUSTOMERNAME
+--------------------------------------------------
+CITY
+--------------------------------------------------
+Ranchi
+
+Munna Bhai
+Agarwal Ltd.
+Haveli
+
+
+SQL> SELECT o.ORDER_NO, o.ORDER_AMT, c.CUST_NAME AS CustomerName, c.CITY AS City
+  2  FROM orders21brs1336 o
+  3  JOIN customer21brs1336 c ON o.CUST_ID = c.CUSTOMER_ID
+  4  WHERE o.ORDER_AMT BETWEEN 500 AND 2000;
+
+  ORDER_NO  ORDER_AMT CUSTOMERNAME
+---------- ---------- --------------------------------------------------
+CITY
+--------------------------------------------------
+         1       1000 Syska
+Gaya
+
+         2      500.5 bishop Corporation
+Maharashtra
+
+         3     750.25 Tesla Industries
+Bengal
+
+
+  ORDER_NO  ORDER_AMT CUSTOMERNAME
+---------- ---------- --------------------------------------------------
+CITY
+--------------------------------------------------
+         4    1200.75 Loyla Enterprises
+Ranchi
+
+         5      900.8 Agarwal Ltd.
+Haveli
+
+
+SQL> SELECT s.NAME AS SalesmanName, c.CUST_NAME AS CustomerName
+  2  FROM salesman21brs1336 s
+  3  JOIN customer21brs1336 c ON s.SALESMAN_ID = c.SALESMAN_ID;
+
+SALESMANNAME
+--------------------------------------------------
+CUSTOMERNAME
+--------------------------------------------------
+Jabba
+Syska
+
+BabuBhai
+bishop Corporation
+
+Jabba
+Tesla Industries
+
+
+SALESMANNAME
+--------------------------------------------------
+CUSTOMERNAME
+--------------------------------------------------
+Aara
+Loyla Enterprises
+
+Dijas
+Agarwal Ltd.
+
+
+SQL> SELECT c.CUST_NAME AS CustomerName
+  2  FROM customer21brs1336 c
+  3  JOIN salesman21brs1336 s ON c.SALESMAN_ID = s.SALESMAN_ID
+  4  WHERE s.COMMISSION > 0.12;
+
+CUSTOMERNAME
+--------------------------------------------------
+bishop Corporation
+
+SQL> SELECT c.CUST_NAME AS CustomerName
+  2  FROM customer21brs1336 c
+  3  JOIN salesman21brs1336 s ON c.SALESMAN_ID = s.SALESMAN_ID
+  4  WHERE s.COMMISSION > 0.12 AND c.CITY <> s.CITY;
+
+no rows selected
+
+SQL> SELECT o.ORDER_NO, o.ORDER_DATE, o.ORDER_AMT, c.CUST_NAME AS CustomerName, s.NAME AS SalesmanName, s.COMMISSION AS SalesmanCommission
+  2  FROM orders21brs1336 o
+  3  JOIN customer21brs1336 c ON o.CUST_ID = c.CUSTOMER_ID
+  4  JOIN salesman21brs1336 s ON o.SALESMAN_ID = s.SALESMAN_ID;
+
+  ORDER_NO ORDER_DAT  ORDER_AMT
+---------- --------- ----------
+CUSTOMERNAME
+--------------------------------------------------
+SALESMANNAME                                       SALESMANCOMMISSION
+-------------------------------------------------- ------------------
+         1 01-JUN-23       1000
+Syska
+Jabba                                                              .1
+
+         2 02-JUN-23      500.5
+bishop Corporation
+BabuBhai                                                          .15
+
+  ORDER_NO ORDER_DAT  ORDER_AMT
+---------- --------- ----------
+CUSTOMERNAME
+--------------------------------------------------
+SALESMANNAME                                       SALESMANCOMMISSION
+-------------------------------------------------- ------------------
+
+         3 03-JUN-23     750.25
+Tesla Industries
+Jabba                                                              .1
+
+         4 04-JUN-23    1200.75
+Loyla Enterprises
+
+  ORDER_NO ORDER_DAT  ORDER_AMT
+---------- --------- ----------
+CUSTOMERNAME
+--------------------------------------------------
+SALESMANNAME                                       SALESMANCOMMISSION
+-------------------------------------------------- ------------------
+Aara                                                              .08
+
+         5 05-JUN-23      900.8
+Agarwal Ltd.
+Dijas                                                             .12
+
+
+SQL> SELECT s.SALESMAN_ID, s.NAME AS SalesmanName, s.CITY AS SalesmanCity, s.COMMISSION,
+  2         c.CUSTOMER_ID, c.CUST_NAME AS CustomerName, c.CITY AS CustomerCity, c.GRADE,
+  3         o.ORDER_NO, o.ORDER_AMT, o.ORDER_DATE
+  4  FROM salesman s
+  5  JOIN customer c ON s.SALESMAN_ID = c.SALESMAN_ID
+  6  JOIN orders o ON c.CUSTOMER_ID = o.CUST_ID;
+JOIN orders o ON c.CUSTOMER_ID = o.CUST_ID
+     *
+ERROR at line 6:
+ORA-00942: table or view does not exist
+
+
+SQL> SELECT s.SALESMAN_ID, s.NAME AS SalesmanName, s.CITY AS SalesmanCity, s.COMMISSION,
+  2         c.CUSTOMER_ID, c.CUST_NAME AS CustomerName, c.CITY AS CustomerCity, c.GRADE,
+  3         o.ORDER_NO, o.ORDER_AMT, o.ORDER_DATE
+  4  FROM salesman21BRS1336 s
+  5  JOIN customer21BRS1336 c ON s.SALESMAN_ID = c.SALESMAN_ID
+  6  JOIN orders21BRS1336 o ON c.CUSTOMER_ID = o.CUST_ID;
+
+SALESMAN_ID SALESMANNAME
+----------- --------------------------------------------------
+SALESMANCITY                                       COMMISSION CUSTOMER_ID
+-------------------------------------------------- ---------- -----------
+CUSTOMERNAME
+--------------------------------------------------
+CUSTOMERCITY                                       GRADE        ORDER_NO
+-------------------------------------------------- ---------- ----------
+ ORDER_AMT ORDER_DAT
+---------- ---------
+          1 Jabba
+Gaya                                                       .1           1
+Syska
+
+SALESMAN_ID SALESMANNAME
+----------- --------------------------------------------------
+SALESMANCITY                                       COMMISSION CUSTOMER_ID
+-------------------------------------------------- ---------- -----------
+CUSTOMERNAME
+--------------------------------------------------
+CUSTOMERCITY                                       GRADE        ORDER_NO
+-------------------------------------------------- ---------- ----------
+ ORDER_AMT ORDER_DAT
+---------- ---------
+Gaya                                               A                   1
+      1000 01-JUN-23
+
+
+SALESMAN_ID SALESMANNAME
+----------- --------------------------------------------------
+SALESMANCITY                                       COMMISSION CUSTOMER_ID
+-------------------------------------------------- ---------- -----------
+CUSTOMERNAME
+--------------------------------------------------
+CUSTOMERCITY                                       GRADE        ORDER_NO
+-------------------------------------------------- ---------- ----------
+ ORDER_AMT ORDER_DAT
+---------- ---------
+          2 BabuBhai
+Maharashtra                                               .15           2
+bishop Corporation
+
+SALESMAN_ID SALESMANNAME
+----------- --------------------------------------------------
+SALESMANCITY                                       COMMISSION CUSTOMER_ID
+-------------------------------------------------- ---------- -----------
+CUSTOMERNAME
+--------------------------------------------------
+CUSTOMERCITY                                       GRADE        ORDER_NO
+-------------------------------------------------- ---------- ----------
+ ORDER_AMT ORDER_DAT
+---------- ---------
+Maharashtra                                        B                   2
+     500.5 02-JUN-23
+
+
+SALESMAN_ID SALESMANNAME
+----------- --------------------------------------------------
+SALESMANCITY                                       COMMISSION CUSTOMER_ID
+-------------------------------------------------- ---------- -----------
+CUSTOMERNAME
+--------------------------------------------------
+CUSTOMERCITY                                       GRADE        ORDER_NO
+-------------------------------------------------- ---------- ----------
+ ORDER_AMT ORDER_DAT
+---------- ---------
+          1 Jabba
+Gaya                                                       .1           3
+Tesla Industries
+
+SALESMAN_ID SALESMANNAME
+----------- --------------------------------------------------
+SALESMANCITY                                       COMMISSION CUSTOMER_ID
+-------------------------------------------------- ---------- -----------
+CUSTOMERNAME
+--------------------------------------------------
+CUSTOMERCITY                                       GRADE        ORDER_NO
+-------------------------------------------------- ---------- ----------
+ ORDER_AMT ORDER_DAT
+---------- ---------
+Bengal                                             A                   3
+    750.25 03-JUN-23
+
+
+SALESMAN_ID SALESMANNAME
+----------- --------------------------------------------------
+SALESMANCITY                                       COMMISSION CUSTOMER_ID
+-------------------------------------------------- ---------- -----------
+CUSTOMERNAME
+--------------------------------------------------
+CUSTOMERCITY                                       GRADE        ORDER_NO
+-------------------------------------------------- ---------- ----------
+ ORDER_AMT ORDER_DAT
+---------- ---------
+          4 Aara
+Ranchi                                                    .08           4
+Loyla Enterprises
+
+SALESMAN_ID SALESMANNAME
+----------- --------------------------------------------------
+SALESMANCITY                                       COMMISSION CUSTOMER_ID
+-------------------------------------------------- ---------- -----------
+CUSTOMERNAME
+--------------------------------------------------
+CUSTOMERCITY                                       GRADE        ORDER_NO
+-------------------------------------------------- ---------- ----------
+ ORDER_AMT ORDER_DAT
+---------- ---------
+Ranchi                                             C                   4
+   1200.75 04-JUN-23
+
+
+SALESMAN_ID SALESMANNAME
+----------- --------------------------------------------------
+SALESMANCITY                                       COMMISSION CUSTOMER_ID
+-------------------------------------------------- ---------- -----------
+CUSTOMERNAME
+--------------------------------------------------
+CUSTOMERCITY                                       GRADE        ORDER_NO
+-------------------------------------------------- ---------- ----------
+ ORDER_AMT ORDER_DAT
+---------- ---------
+          3 Dijas
+Bengal                                                    .12           5
+Agarwal Ltd.
+
+SALESMAN_ID SALESMANNAME
+----------- --------------------------------------------------
+SALESMANCITY                                       COMMISSION CUSTOMER_ID
+-------------------------------------------------- ---------- -----------
+CUSTOMERNAME
+--------------------------------------------------
+CUSTOMERCITY                                       GRADE        ORDER_NO
+-------------------------------------------------- ---------- ----------
+ ORDER_AMT ORDER_DAT
+---------- ---------
+Haveli                                             B                   5
+     900.8 05-JUN-23
+
+
+SQL>
+SQL>
+SQL> SELECT CUST_NAME AS CustomerName
+  2  FROM customer21BRS1336
+  3  WHERE SALESMAN_ID IS NOT NULL
+  4  UNION
+  5  SELECT CUST_NAME AS CustomerName
+  6  FROM customer21BRS1336
+  7  WHERE SALESMAN_ID IS NULL
+  8  ORDER BY CustomerName ASC;
+
+CUSTOMERNAME
+--------------------------------------------------
+Agarwal Ltd.
+Loyla Enterprises
+Syska
+Tesla Industries
+bishop Corporation
+
+
+
+
+SQL> SELECT s.NAME AS SalesmanName
+  2  FROM salesman21BRS1336 s
+  3  LEFT JOIN customer21BRS1336 c ON s.SALESMAN_ID = c.SALESMAN_ID
+  4  WHERE c.SALESMAN_ID IS NOT NULL OR c.SALESMAN_ID IS NULL
+  5  GROUP BY s.NAME
+  6  ORDER BY SalesmanName ASC;
+
+SALESMANNAME
+--------------------------------------------------
+Aara
+BabuBhai
+Dijas
+Jabba
+Munna Bhai
+
+SQL> SELECT s.NAME AS SalesmanName
+  2  FROM salesman21BRS1336 s
+  3  LEFT JOIN customer21BRS1336 c ON s.SALESMAN_ID = c.SALESMAN_ID
+  4  LEFT JOIN orders21BRS1336 o ON c.CUSTOMER_ID = o.CUST_ID
+  5  WHERE (c.SALESMAN_ID IS NULL OR COUNT(DISTINCT c.CUSTOMER_ID) > 0)
+  6    AND (c.SALESMAN_ID IS NULL OR COUNT(o.ORDER_NO) > 0)
+  7  GROUP BY s.NAME
+  8  ORDER BY SalesmanName ASC;
+WHERE (c.SALESMAN_ID IS NULL OR COUNT(DISTINCT c.CUSTOMER_ID) > 0)
+                     *
+ERROR at line 5:
+ORA-00934: group function is not allowed here
+
+
+SQL> SELECT s.NAME AS SalesmanName
+  2  FROM salesman21BRS1336 s
+  3  LEFT JOIN customer21BRS1336 c ON s.SALESMAN_ID = c.SALESMAN_ID
+  4  LEFT JOIN orders21BRS1336 o ON c.CUSTOMER_ID = o.CUST_ID
+  5  GROUP BY s.NAME
+  6  HAVING (COUNT(DISTINCT c.CUSTOMER_ID) > 0 OR c.SALESMAN_ID IS NULL)
+  7     AND (COUNT(o.ORDER_NO) > 0 OR c.SALESMAN_ID IS NULL)
+  8  ORDER BY SalesmanName ASC;
+   AND (COUNT(o.ORDER_NO) > 0 OR c.SALESMAN_ID IS NULL)
+                                 *
+ERROR at line 7:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> SELECT s.NAME AS SalesmanName, c.CUST_NAME AS CustomerName
+  2  FROM salesman21BRS1336 s
+  3  CROSS JOIN customer21BRS1336 c
+  4  ORDER BY SalesmanName ASC, CustomerName ASC;
+
+SALESMANNAME
+--------------------------------------------------
+CUSTOMERNAME
+--------------------------------------------------
+Aara
+Agarwal Ltd.
+
+Aara
+Loyla Enterprises
+
+Aara
+Syska
+
+
+SALESMANNAME
+--------------------------------------------------
+CUSTOMERNAME
+--------------------------------------------------
+Aara
+Tesla Industries
+
+Aara
+bishop Corporation
+
+BabuBhai
+Agarwal Ltd.
+
+
+SALESMANNAME
+--------------------------------------------------
+CUSTOMERNAME
+--------------------------------------------------
+BabuBhai
+Loyla Enterprises
+
+BabuBhai
+Syska
+
+BabuBhai
+Tesla Industries
+
+
+SALESMANNAME
+--------------------------------------------------
+CUSTOMERNAME
+--------------------------------------------------
+BabuBhai
+bishop Corporation
+
+Dijas
+Agarwal Ltd.
+
+Dijas
+Loyla Enterprises
+
+
+SALESMANNAME
+--------------------------------------------------
+CUSTOMERNAME
+--------------------------------------------------
+Dijas
+Syska
+
+Dijas
+Tesla Industries
+
+Dijas
+bishop Corporation
+
+
+SALESMANNAME
+--------------------------------------------------
+CUSTOMERNAME
+--------------------------------------------------
+Jabba
+Agarwal Ltd.
+
+Jabba
+Loyla Enterprises
+
+Jabba
+Syska
+
+
+SALESMANNAME
+--------------------------------------------------
+CUSTOMERNAME
+--------------------------------------------------
+Jabba
+Tesla Industries
+
+Jabba
+bishop Corporation
+
+Munna Bhai
+Agarwal Ltd.
+
+
+SALESMANNAME
+--------------------------------------------------
+CUSTOMERNAME
+--------------------------------------------------
+Munna Bhai
+Loyla Enterprises
+
+Munna Bhai
+Syska
+
+Munna Bhai
+Tesla Industries
+
+
+SALESMANNAME
+--------------------------------------------------
+CUSTOMERNAME
+--------------------------------------------------
+Munna Bhai
+bishop Corporation
+
+
+25 rows selected.
+
+SQL>
+
+
