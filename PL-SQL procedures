@@ -1,0 +1,125 @@
+SQL*Plus: Release 11.2.0.2.0 Production on Thu Jul 13 21:48:15 2023
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect system
+Enter password:
+Connected.
+SQL>
+SQL> set serveroutput on;
+
+
+SQL> create table Student_21BRS1336 (id int primary key, name varchar(20), marks int);
+
+Table created.
+
+
+ SQL> CREATE OR REPLACE TRIGGER check_marks
+   2  BEFORE INSERT OR UPDATE ON student_21BRS1336
+   3  FOR EACH ROW
+   4  BEGIN
+   5    IF :NEW.marks < 0 OR :NEW.marks > 100 THEN
+   6      DBMS_OUTPUT.PUT_LINE('Invalid marks');
+   7    END IF;
+   8  END
+   9  ;
+  10  /
+
+Trigger created.
+
+SQL>
+
+SQL> insert into student_21BRS1336 values (1,'Rohit', 50);
+
+1 row created.
+
+SQL> insert into student_21BRS1336 values (2,'Ajay', 110);
+Invalid marks
+
+1 row created.
+
+SQL> insert into student_21BRS1336 values (3,'Seema', -100);
+Invalid marks
+
+1 row created.
+
+
+SQL> CREATE  PROCEDURE check_armstrong_number(p_number NUMBER) IS
+  2    v_temp NUMBER := p_number;
+  3    v_digits NUMBER;
+  4    v_sum NUMBER := 0;
+  5  BEGIN
+  6    WHILE v_temp > 0 LOOP
+  7      v_digits := v_temp MOD 10;
+  8      v_sum := v_sum + POWER(v_digits, 3); 
+  9      v_temp := FLOOR(v_temp / 10);
+ 10    END LOOP;
+ 11
+ 12    IF p_number = v_sum THEN
+ 13      DBMS_OUTPUT.PUT_LINE(p_number || ' is an Armstrong number.');
+ 14    ELSE
+ 15      DBMS_OUTPUT.PUT_LINE(p_number || ' is not an Armstrong number.');
+ 16    END IF;
+ 17  END;
+ 18  /
+
+
+Procedure created.
+
+SQL> BEGIN
+  2  check_armstrong_number(153);
+  3  END;
+  4  /
+153 is an Armstrong number.
+
+PL/SQL procedure successfully completed.
+
+
+SQL> BEGIN
+  2  check_armstrong_number(100);
+  3  END;
+  4  /
+100 is not an Armstrong number.
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE PROCEDURE generate_fibonacci_series(p_terms IN NUMBER) IS
+  2    v_first_number NUMBER := 0;
+  3    v_second_number NUMBER := 1;
+  4    v_next_number NUMBER;
+  5  BEGIN
+  6    DBMS_OUTPUT.PUT_LINE('Fibonacci Series:');
+  7    DBMS_OUTPUT.PUT_LINE(v_first_number);
+  8
+  9    IF p_terms > 1 THEN
+ 10      DBMS_OUTPUT.PUT_LINE(v_second_number);
+ 11
+ 12      FOR i IN 3..p_terms LOOP
+ 13        v_next_number := v_first_number + v_second_number;
+ 14        DBMS_OUTPUT.PUT_LINE(v_next_number);
+ 15
+ 16        v_first_number := v_second_number;
+ 17        v_second_number := v_next_number;
+ 18      END LOOP;
+ 19    END IF;
+ 20  END;
+ 21  /
+
+Procedure created.
+
+SQL> BEGIN
+  2    generate_fibonacci_series(10); 
+  3  END;
+  4  /
+Fibonacchi Series:
+0
+1
+1
+2
+3
+5
+8
+13
+21
+34
+
+PL/SQL procedure successfully completed.
